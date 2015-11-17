@@ -1,3 +1,11 @@
+# What is this?
+
+Satoshi Nakamoto (Creator of Bitcoin) has mentioned in [his white paper](https://bitcoin.org/bitcoin.pdf) that if there's a certain transaction with multiple inputs, it's a sign that the inputs can belong to the same owner.
+Though there are ways to avoid [this](https://bitcointalk.org/index.php?topic=279249.0), they aren't that widely used.
+
+I'm trying to see if it's possible to create a database to link such addresses together.
+I do this by chaining all addresses that have ever been inputs in a transaction together, recursively.
+
 ## Setting up the blockchain
 
 Download the bitcoin binary from [the official website](https://bitcoin.org/en/download)
@@ -14,6 +22,7 @@ Install postgresql via a package manager. I used
     yaourt -S postgresql
 
 then
+
     sudo chown -R postgres:postgres /var/lib/postgres/
     sudo passwd postgres
 
@@ -65,7 +74,7 @@ It will create a database named abe. You can use it through:
     
 These are some example commands:
 
-    select first.pubkey_hash from txin_detail first join txin_detail second on (first.tx_id = second.tx_id) and (first.txin_id <> second.txin_id) and (first.txin_value < 100000) and (second.txin_value < 100000) and (first.pubkey_hash <> second.pubkey_hash) group by first.pubkey_hash limit 40;
+    select first.pubkey_hash, second.pubkey_hash from txin_detail first join txin_detail second on (first.tx_id = second.tx_id) and (first.txin_id <> second.txin_id) and (first.txin_value < 100000) and (second.txin_value < 100000) and (first.pubkey_hash <> second.pubkey_hash) limit 1000000
 
 This creates an edge list of public key hashes that are possibly related to other public key hashes.
 They might be related because they appear as inputs in the same transaction, so they might be from the same wallet.
