@@ -97,10 +97,22 @@ To run the java server, open the project in Intellij, and click on Run -> Edit c
 
 Basically, the first argument is the port of the server, and the second is the edgelist from which the graph is constructed.
 
+Now, make sure you have [Node](https://nodejs.org/en/) and [NPM](https://www.npmjs.com/) installed.
+
+Then
+
+    sudo npm install -g grunt, bower
+
 To run the python server (that also serves the website), go to the webapp folder, and run ./install.sh
 
 This should set the project up. 
 
     flask/bin/python run.py
 
-And you should have a webserver running on 127.0.0.1:9000/
+And you should have a webserver running on 127.0.0.1:5000/
+
+To run the javascript server
+    
+    grunt server
+
+Now you'll have the development server on 127.0.0.1:9000/
